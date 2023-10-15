@@ -98,15 +98,20 @@ functions:
   #     - http:
   #         method: post
   #         path: todos/{todoId}/attachment
-# resources:
-#   Resources:
-#     # Add necessary AWS resources. You will need at least the following AWS resources
-#     # TODO: Fill the properties
-#     # Feel free to change the names as you like.
-#     GatewayResponseDefault4XX:
-#       Type: AWS::ApiGateway::GatewayResponse
-#       Properties:
-
+resources:
+  Resources:
+    # Add necessary AWS resources. You will need at least the following AWS resources
+    # TODO: Fill the properties
+    # Feel free to change the names as you like.
+    GatewayResponseDefault4XX:
+      Type: AWS::ApiGateway::GatewayResponse
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: DEFAULT_4XX
+        RestApiId: !Ref ApiGatewayRestApi
+        StatusCode: '404'
 #     # TODO: Create a DynamoDB table with local secondary index and a composite key
 #     TodosTable:
 #       Type: AWS::DynamoDB::Table
