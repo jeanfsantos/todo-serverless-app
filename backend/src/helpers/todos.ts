@@ -56,3 +56,12 @@ export async function updateTodoItem(
     userId
   )
 }
+
+export async function deleteTodoItem(
+  todoId: string,
+  userId: string
+): Promise<void> {
+  logger.info(`Deleting todo ${todoId} of user ${userId}`)
+
+  await todosAccess.deleteTodoItem(todoId, userId)
+}
