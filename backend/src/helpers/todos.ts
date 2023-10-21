@@ -15,7 +15,7 @@ export async function createTodo(
   createTodoRequest: CreateTodoRequest,
   userId: string
 ): Promise<TodoItem> {
-  logger.info('Creating new Todo for user ', userId)
+  logger.info(`Creating new Todo for user ${userId}`)
 
   const todoId = uuid.v4()
   const timestamp = new Date().toISOString()
@@ -28,4 +28,10 @@ export async function createTodo(
     dueDate: createTodoRequest.dueDate,
     done: false
   })
+}
+
+export async function getTodos(userId: string): Promise<TodoItem[]> {
+  logger.info(`Getting all Todos for user ${userId}`)
+
+  return await todosAccess.getTodos(userId)
 }

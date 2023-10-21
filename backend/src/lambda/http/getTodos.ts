@@ -6,8 +6,8 @@ import { cors } from 'middy/middlewares'
 
 // import { getTodosForUser as getTodosForUser } from '../../businessLogic/todos'
 import { getUserId } from '../utils'
-
 import { createLogger } from '../../utils/logger'
+import { getTodos } from '../../helpers/todos'
 
 const logger = createLogger('getTodos')
 
@@ -15,14 +15,12 @@ const logger = createLogger('getTodos')
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     // Write your code here
-    logger.info('--- GET TODOS ---')
-
     try {
+      logger.info(`Get all TODO items for a current user`)
+
       const userId = getUserId(event)
 
-      logger.info('--- userId ---', userId)
-
-      const todos = []
+      const todos = await getTodos(userId)
 
       return {
         statusCode: 200,
@@ -31,7 +29,7 @@ export const handler = middy(
         })
       }
     } catch (e) {
-      logger.error('--- GET TODOS FAILED ---', e.message, e)
+      logger.error(`Fail to get all Todos `, { error: e })
 
       return {
         statusCode: 500,

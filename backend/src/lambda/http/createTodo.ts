@@ -13,19 +13,29 @@ const logger = createLogger('createTodo')
 export const handler = middy(
   async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     // TODO: Implement creating a new TODO item
-    const newTodo: CreateTodoRequest = JSON.parse(event.body)
-    logger.info(`creating todo item: `, newTodo)
+    try {
+      const newTodo: CreateTodoRequest = JSON.parse(event.body)
+      logger.info(`creating todo item: `, { item: newTodo })
 
-    const userId = getUserId(event)
-    logger.info(`creating todo item for user ${userId}`)
+      const userId = getUserId(event)
 
-    const item = await createTodo(newTodo, userId)
+      const item = await createTodo(newTodo, userId)
 
-    return {
-      statusCode: 201,
-      body: JSON.stringify({
-        item
-      })
+      return {
+        statusCode: 201,
+        body: JSON.stringify({
+          item
+        })
+      }
+    } catch (e) {
+      logger.error(`Fail to create todo item `, { error: e })
+
+      return {
+        statusCode: 500,
+        body: JSON.stringify({
+          message: 'Unexpected Error'
+        })
+      }
     }
   }
 )

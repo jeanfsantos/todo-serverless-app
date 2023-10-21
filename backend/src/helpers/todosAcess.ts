@@ -5,7 +5,7 @@ import { createLogger } from '../utils/logger'
 import { TodoItem } from '../models/TodoItem'
 // import { TodoUpdate } from '../models/TodoUpdate'
 
-const XAWS = AWSXRay.captureAWS(AWS)
+// const XAWS = AWSXRay.captureAWS(AWS)
 
 const logger = createLogger('TodosAccess')
 
@@ -29,6 +29,21 @@ export class TodosAccess {
 
     logger.info('Created new todo item')
     return todo
+  }
+
+  async getTodos(userId: string): Promise<TodoItem[]> {
+    logger.info(`Getting all Todos for user ${userId}`)
+
+    const params = {
+      TableName: this.todosTable,
+      KeyConditionExpression: 'userId = :userId',
+      ExpressionAttributeValues: {
+        ':userId': userId
+      }
+    }
+    const res = await this.docClient.query(params).promise()
+    const items = res.Items as TodoItem[]
+    return items
   }
 }
 
