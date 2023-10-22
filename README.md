@@ -23,12 +23,12 @@ You might also store an id of a user who created a TODO item.
 
 * <a href="https://manage.auth0.com/" target="_blank">Auth0 account</a>
 * <a href="https://github.com" target="_blank">GitHub account</a>
-* <a href="https://nodejs.org/en/download/package-manager/" target="_blank">NodeJS</a> version up to 12.xx 
+* <a href="https://nodejs.org/en/download/package-manager/" target="_blank">NodeJS</a> version up to 14.xx
 * Serverless 
    * Create a <a href="https://dashboard.serverless.com/" target="_blank">Serverless account</a> user
-   * Install the Serverless Framework’s CLI  (up to VERSION=2.21.1). Refer to the <a href="https://www.serverless.com/framework/docs/getting-started/" target="_blank">official documentation</a> for more help.
+   * Install the Serverless Framework’s CLI  (up to VERSION=2.72.4). Refer to the <a href="https://www.serverless.com/framework/docs/getting-started/" target="_blank">official documentation</a> for more help.
    ```bash
-   npm install -g serverless@2.21.1
+   npm install -g serverless@2.72.4
    serverless --version
    ```
    * Login and configure serverless to use the AWS credentials 
