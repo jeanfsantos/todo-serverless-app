@@ -1,16 +1,18 @@
-import { TodosAccess } from './todosAcess'
-// import { AttachmentUtils } from './attachmentUtils';
+import * as uuid from 'uuid'
+
 import { TodoItem } from '../models/TodoItem'
+import { TodoUpdate } from '../models/TodoUpdate'
 import { CreateTodoRequest } from '../requests/CreateTodoRequest'
 import { UpdateTodoRequest } from '../requests/UpdateTodoRequest'
 import { createLogger } from '../utils/logger'
-import * as uuid from 'uuid'
-import { TodoUpdate } from '../models/TodoUpdate'
+import { AttachmentUtils } from './attachmentUtils'
+import { TodosAccess } from './todosAcess'
 // import * as createError from 'http-errors'
 
 // TODO: Implement businessLogic
 const logger = createLogger('Todos')
 const todosAccess = new TodosAccess()
+const attachmentUtils = new AttachmentUtils()
 
 export async function createTodo(
   createTodoRequest: CreateTodoRequest,
@@ -64,4 +66,20 @@ export async function deleteTodoItem(
   logger.info(`Deleting todo ${todoId} of user ${userId}`)
 
   await todosAccess.deleteTodoItem(todoId, userId)
+}
+
+export async function createAttachmentPresignedUrl(
+  todoId: string,
+  userId: string
+): Promise<String> {
+  const uploadUrl = await attachmentUtils.getUploadUrl(todoId)
+  logger.info(`upload url is ${uploadUrl}`)
+
+  const attachmentUrl = attachmentUtils.getAttachmentUrl(todoId)
+  logger.info(`attachmentUrl is ${attachmentUrl}`)
+
+  await todosAccess.updateAttachmentUrl(todoId, attachmentUrl, userId)
+  logger.info(`updated attachment url for todo ${todoId} of user ${userId}`)
+
+  return uploadUrl
 }
